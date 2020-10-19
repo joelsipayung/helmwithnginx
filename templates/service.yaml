@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helmwithnginx.fullname" . }}
+  labels:
+    {{- include "helmwithnginx.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      # nodePort: {{ .Values.service.nodePort }}
+      name: http
+  selector:
+    {{- include "helmwithnginx.selectorLabels" . | nindent 4 }}

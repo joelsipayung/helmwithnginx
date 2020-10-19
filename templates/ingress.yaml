@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "helmwithnginx.fullname" . }}
+  labels:
+    {{- include "helmwithnginx.labels" . | nindent 4 }}
+spec:
+  rules:
+    - host: {{ .Values.hostname.host }}
+      http:
+        paths:
+          - path: {{ .Values.hostname.path }}
+            backend:
+              serviceName: {{ include "helmwithnginx.fullname" . }}
+              servicePort: {{ .Values.service.port }}
